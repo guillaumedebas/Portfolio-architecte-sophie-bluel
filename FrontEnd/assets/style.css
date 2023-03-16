@@ -3,6 +3,8 @@
    License: none (public domain)
 */
 
+
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -53,6 +55,21 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+
+#creation {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	background: black;
+	color: white;
+	margin: 0px;
+	gap: 13px;
+}
+
+.fa-light {
+	font-family: 'FontAwesome';
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -97,10 +114,13 @@ nav li {
 
 li:hover {
 	color: #B1663C;
+	cursor: pointer;
 }
 #introduction {
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
+	position: relative;
 }
 #introduction figure {
 	flex: 1
@@ -121,6 +141,59 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+.modify {
+	position: absolute; 
+	bottom: -8%;
+	left: 5%;
+}
+
+#portfolio {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	
+}
+
+h2 {
+	
+	text-align: center; 
+    position: relative;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+}
+.title {
+	position: relative;
+
+}
+
+.modifyProjet {
+    position: absolute; 
+    top: 0.5rem;
+    left: 1rem; 
+}
+
+.modify:hover, .modifyProjet:hover {
+	cursor: pointer;
+}
+.title div {
+	justify-content: flex-start;	
+	gap: 11px;
+	
+}
+
+.modify, .modifyProjet  {
+	display: none;
+	flex-basis: 100%;
+	margin: 0px;
+	gap: 11px;
+}
+
+
+
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
@@ -137,31 +210,31 @@ li:hover {
 	width: 100%;
 
 }
-#contact {
+#contact, #log {
 	width: 50%;
 margin: auto;
 }
-#contact > * {
+#contact > *, #log > * {
 	text-align: center;
 
 }
-#contact h2{
+#contact h2, #log h2{
 	margin-bottom: 20px;
 }
-#contact form {
+#contact form, #log form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input, #log input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact label, #log label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -193,7 +266,7 @@ footer nav ul {
 	margin: 2em
 }
 
-.filters li {
+.filters li, .publish {
 	display: flex;
     justify-content: center;
     align-items: center;
@@ -207,6 +280,20 @@ footer nav ul {
 	padding: 0.563rem 1.875rem  0.563rem 1.875rem;
 }
 
+.publish {
+	margin: 10px;
+	font-family: 'Work Sans';
+	border: 2px black solid;
+	color: black;
+}
+
+.publish:hover {
+	color: white;
+	border: 2px white solid;
+	background: black;
+	cursor: pointer;
+}
+
 .filters li:hover {
 	color: white;
 	background-color: #1D6154;
@@ -215,5 +302,11 @@ footer nav ul {
 
 a {
 	color: #1D6154;
+	text-align: center;
+}
+
+#contact span p, #log span p {
+	color:red;
+	margin-bottom: 20px;
 	text-align: center;
 }

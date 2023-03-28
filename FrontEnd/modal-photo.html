@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Sophie Bluel - Architecte d'intérieur</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+		rel="stylesheet">
+	<meta name="description" content="">
+	<script src="https://kit.fontawesome.com/4c06c39dd8.js" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="./assets/style.css">
+
+	<script type="module" src="assets/javascript/modal.js"></script>
+</head>
+
+<body>
+	<aside id="modal3" class="modal">
+		<div class="modal-wrapper-photo js-modal-stop">
+			<div class="direction">
+			<i class="fa-regular fa-arrow-left-long js-modal-return"></i>
+			<i class="fa-solid fa-xmark js-modal-close"></i>
+			</div>
+			<h1>Ajout photo</h1>
+			<div class="modal-photo" id="add-photo" >
+				<form method="post" enctype="multipart/form-data">
+					<fieldset class="insert-image">
+						<i class="fa-sharp fa-regular fa-image"></i>							
+						<label for="image_uploads" class="insert-button">
+							+ Ajouter photo
+						</label>
+						<input id="image_uploads" type="file" class="js-insert-image js-input-form" name="image_uploads" accept=".jpg, .jpeg, .png" multiple = false>
+						<p>jpg, png : 4mo max</p>
+					</fieldset>
+					<fieldset class="modal-photo-description">
+					<label for="title">Titre</label>
+					<input type="text" name="title" id="title" class="js-input-form">
+					<label for="category">Catégorie</label>
+					<select name="category" id="category" class="js-form-select js-input-form">
+						<option value=""></option>
+					</select>
+				</fieldset>
+				<input type="submit" value="Valider" class="submit-image">
+				</form>
+			</div>
+			<div class="modal-option">
+
+			</div>
+		</div>
+	</aside>
+
+</body>
+
+</html>

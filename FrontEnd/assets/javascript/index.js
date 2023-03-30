@@ -1,15 +1,16 @@
 const response = await fetch("http://localhost:5678/api/works");
-const figures = await response.json();
+let figures = await response.json();
 const responseCategory = await fetch("http://localhost:5678/api/categories");
 const categories = await responseCategory.json();
 
 
 function generateFigures(figures) {
+    const figuresSection = document.querySelector(".gallery");
+    figuresSection.innerHTML = "";
     for (let i = 0; i < figures.length; i++) {
 
         const figure = figures[i];
 
-        const figuresSection = document.querySelector(".gallery");
 
         const figureElement = document.createElement("figure");
         const imageElement = document.createElement("img");
@@ -22,6 +23,11 @@ function generateFigures(figures) {
         figureElement.appendChild(figcaptionElement);
 
     }
+}
+
+const figuresInit = async function () {
+    const response = await fetch("http://localhost:5678/api/works");
+    figures = await response.json();
 }
 
 function generateModalFigures(figures) {
@@ -53,14 +59,15 @@ function generateModalFigures(figures) {
 
     }
     const optionSection = document.querySelector(".modal-option");
-    const boutonElement = document.createElement("bouton");
-    boutonElement.className = "submit";
-    boutonElement.innerText = "Ajouter une photo"
+    const aBoutonElement = document.createElement("a");
+    aBoutonElement.className = "submit";
+    aBoutonElement.innerText = "Ajouter une photo"
+    aBoutonElement.href = "modal-photo.html#wrapper-add-photo";
     const aDeleteElement = document.createElement("a");
     aDeleteElement.href = "#";
     aDeleteElement.innerText = "Supprimer la galerie"
 
-    optionSection.appendChild(boutonElement);
+    optionSection.appendChild(aBoutonElement);
     optionSection.appendChild(aDeleteElement);
 }
 
@@ -89,50 +96,42 @@ filterButtons("hotels-restaurants", 3);
 const logLink = document.querySelector(".logLink")
 const creationSection = document.querySelector("#creation")
 const modifyPart = document.querySelector(".modify")
-const modifyPartProjet = document.querySelector(".modifyProjet")
-if (window.localStorage.getItem("userId") && window.localStorage.getItem("token")) {
+const titleModifyProjet = document.querySelector(".title")
+if (window.localStorage.getItem("token")) {
     logLink.innerText = "logout";
     creationSection.style.display = 'flex';
     modifyPart.style.display = 'flex';
-    modifyPartProjet.style.display = 'flex';
+    titleModifyProjet.style.display = 'flex';
 
 
 } else {
-    console.log("erreur !");
     logLink.innerText = "login";
+
 }
 const logButton = document.querySelector(`.logLink`);
-logButton.addEventListener("click", function () {
+logButton.addEventListener("click", function (e) {
+    e.preventDefault();
     if (logLink.innerText == "logout") {
-        window.localStorage.removeItem("userId");
         window.localStorage.removeItem("token");
         location.href = "index.html";
     } else {
-        location.href = "login.html"
+        location.href = e.target.href;
     }
 });
 
-let modal = window.localStorage.getItem("modal");
+let modal = null;
 const focusableSelector = 'button, a, input, textarea';
 let focusableElements = [];
 let previouslyFocusedElement = null;
 
 const openModal = async function (e) {
-    if (!window.localStorage.getItem("target")) {
     e.preventDefault();
     const target = e.currentTarget.href;
     modal = await loadModal(target);
-    window.localStorage.setItem("target", target);
-    console.log('ok');
-    } else {
-    modal = await loadModal(window.localStorage.getItem("target"));
-    console.log('else');
-    }
     modal.className = "modal";
     focusableElements = Array.from(modal.querySelectorAll(focusableSelector));
     previouslyFocusedElement = document.querySelector(':focus');
     modal.style.display = "flex";
-
     generateModalFigures(figures);
     modal.querySelectorAll('.js-delete').forEach(i => {
         i.addEventListener('click', deleteWork);
@@ -160,9 +159,8 @@ const closeModal = function (e) {
     modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation);
     const hideModal = function () {
         modal.style.display = "none";
-        window.localStorage.removeItem("target");
         modal.removeEventListener('animationend', hideModal);
-        console.log("del")
+        modal.remove('animationend', hideModal);
     };
     modal.addEventListener('animationend', hideModal);
 
@@ -193,9 +191,6 @@ const focusInModal = function (e) {
 
 const loadModal = async function (url) {
     const target = '#' + url.split('#')[1];
-    console.log(target);
-    const existingModal = document.querySelector(target);
-    if (existingModal !== null) return existingModal;
     const html = await fetch(url).then(response => response.text());
     const element = document.createRange().createContextualFragment(html).querySelector(target);
     document.body.append(element);
@@ -218,142 +213,208 @@ window.addEventListener('keydown', function (e) {
 const deleteWork = async function (e) {
     const target = e.target.id;
     const id = target.split('trash-')[1];
-    console.log('id : ' + id);
     const token = window.localStorage.getItem("token");
     const headers = { 'Authorization': `Bearer ${token}` }
     const response = await fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
         headers: headers
     });
-    console.log(response);
+    if (!response.ok) {
+        window.localStorage.removeItem("token");
+        location.href = "login.html";
+        window.localStorage.setItem("erreurTokken", "Erreur d'authentification, veuillez-vous reconnecter. Si le problème persiste, contactez votre administrateur.");
+    } else {
+    await figuresInit();
+    generateFigures(figures);
+    generateModalFigures(figures);
+    modal.querySelectorAll('.js-delete').forEach(i => {
+        i.addEventListener('click', deleteWork);
+    });
+    modal.querySelector('.submit').addEventListener('click', addProject);
+    }
 
 
 };
 
 const addProject = async function (e) {
-  document.querySelector("#modal2").innerHTML = "";
-    document.querySelector("#modal2").remove;
-    const html = await fetch("modal-photo.html#modal3").then(response => response.text());
-    const element = document.createRange().createContextualFragment(html).querySelector('#modal3');
-    document.body.append(element);
-    
-
-    const modal = document.querySelector(".modal-wrapper-photo");
-    const input = modal.querySelector('.js-insert-image');
-    const returnButton = modal.querySelector('.js-modal-return');
-    const insertImage = modal.querySelector('.insert-image');
-    const insertButton = modal.querySelector('.submit-image');
-   
-
-     const objectProject = new FormData();
-
-    input.style.display = "none";
-
-    const returnModal = async function() {
-      
-      // document.querySelector(".modal-wrapper").innerHTML = "";
-      // console.log(document.querySelector(".modal-wrapper").innerHTML);
-      // const html = await fetch("modal.html#modal2").then(response => response.text());
-      // const element = document.createRange().createContextualFragment(html).querySelector('#modal2');
-      // openModal();
-    }
-
-for (let i in categories) {
-  const selectItems = document.querySelector('.js-form-select');
-       const selectOption = document.createElement("option");
-       selectOption.value = categories[i].id;
-       selectOption.innerText = categories[i].name;
-       selectItems.appendChild(selectOption);
-}
-
-document.querySelectorAll('.js-input-form').forEach(input => {
-    input.value = "";
-  });
-  
-  input.addEventListener('change', updateImageDisplay);
-
-  returnButton.addEventListener('click', returnModal);
-  
-  insertButton.addEventListener("click", async function (e) {
     e.preventDefault();
-    const token = window.localStorage.getItem("token");
-    const response = await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'accept' : 'application/json'
-      },
-      body: objectProject
+    document.querySelector(".modal").innerHTML = "";
+
+    const url = e.currentTarget.href;
+    const target = '#' + url.split('#')[1];
+
+    const html = await fetch(url).then(response => response.text());
+    const element = document.createRange().createContextualFragment(html).querySelector(target);
+    document.querySelector(".modal").append(element);
+    document.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+    document.querySelector('.js-modal-close').addEventListener('click', closeModal);
+
+
+    let modal = document.querySelector(".modal-wrapper-photo");
+    let input = modal.querySelector('.js-insert-image');
+    let returnButton = modal.querySelector('.js-modal-return');
+    let insertImage = modal.querySelector('.insert-image');
+    let insertButton = modal.querySelector('.submit-image');
+    input.style.display = "none";
+    let objectProject = new FormData();
+
+
+    const checkValue = function (e) {
+        let thisInput = document.getElementById(e.target.id);
+
+        if (thisInput && thisInput.value) {
+            if (e.target.id == 'title') {
+                objectProject.append('title', thisInput.value);
+            }
+            if (e.target.id == 'category') {
+                objectProject.append('category', thisInput.value);
+            }
+            if (objectProject.get("image") && objectProject.get("title") && objectProject.get("category")) {
+                insertButton.style.background = '#1D6154';
+                insertButton.style.cursor = 'pointer';
+            }
+
+        }
+    }
+
+    function updateImageDisplay() {
+        let currentFile = input.files[0];
+
+        if (currentFile && validFileType(currentFile)) {
+            insertImage.innerHTML = ""
+            let image = document.createElement('img');
+            image.src = window.URL.createObjectURL(currentFile);
+            objectProject.append('image', currentFile);
+            insertImage.appendChild(image);
+        } else {
+            let paragraph = document.createElement('p');
+            paragraph.textContent = 'Veuillez sélectionner un fichier image valide.';
+            insertImage.appendChild(paragraph);
+        }
+        if (objectProject.get("image") && objectProject.get("title") && objectProject.get("category")) {
+            insertButton.style.background = '#1D6154';
+            insertButton.style.cursor = 'pointer';
+        }
+    }
+
+    const sendProject = async function (e) {
+        e.preventDefault();
+        const token = window.localStorage.getItem("token");
+        const response = await fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'accept': 'application/json'
+            },
+            body: objectProject
+        });
+        if (!response.ok) {
+            window.localStorage.removeItem("token");
+            location.href = "login.html";
+            window.localStorage.setItem("erreurTokken", "Erreur d'authentification, veuillez-vous reconnecter. Si le problème persiste, contactez votre administrateur.");
+        } else {
+        document.querySelectorAll('.js-input-form').forEach(input => {
+            input.value = "";
+        });
+        await figuresInit();
+        generateFigures(figures);
+        document.querySelector(".modal").innerHTML = "";
+
+        const html = await fetch(url).then(response => response.text());
+        const element = document.createRange().createContextualFragment(html).querySelector(target);
+        document.querySelector(".modal").append(element);
+        document.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+        document.querySelector('.js-modal-close').addEventListener('click', closeModal);
+        modal = document.querySelector(".modal-wrapper-photo");
+        input = modal.querySelector('.js-insert-image');
+        returnButton = modal.querySelector('.js-modal-return');
+        insertImage = modal.querySelector('.insert-image');
+        insertButton = modal.querySelector('.submit-image');
+        input.style.display = "none";
+        input.addEventListener('change', updateImageDisplay);
+        returnButton.addEventListener('click', returnModal);
+        for (let i in categories) {
+            const selectItems = document.querySelector('.js-form-select');
+            const selectOption = document.createElement("option");
+            selectOption.value = categories[i].id;
+            selectOption.innerText = categories[i].name;
+            selectItems.appendChild(selectOption);
+        }
+        insertButton.addEventListener("click", sendProject);
+        while (objectProject.keys().next().value) {
+            objectProject.delete(objectProject.keys().next().value);
+        }
+         document.querySelectorAll('.js-input-form').forEach(input => {
+            input.addEventListener('change', checkValue);
+        })
+        };
+
+
+    };
+
+    let fileTypes = [
+        'image/jpeg',
+        'image/pjpeg',
+        'image/png'
+    ]
+
+    function validFileType(file) {
+        for (let i = 0; i < fileTypes.length; i++) {
+            if (file.type === fileTypes[i]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
+
+
+    const returnModal = async function (e) {
+        e.preventDefault();
+        const url = e.currentTarget.href;
+        const target = '#' + url.split('#')[1];
+        document.querySelector(".modal").innerHTML = "";
+
+        const html = await fetch(url).then(response => response.text());
+        const element = document.createRange().createContextualFragment(html).querySelector(target);
+        document.querySelector(".modal").append(element);
+        generateModalFigures(figures);
+        document.querySelector('.submit').addEventListener('click', addProject);
+        document.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+        document.querySelector('.js-modal-close').addEventListener('click', closeModal);
+        document.querySelectorAll('.js-delete').forEach(i => {
+            i.addEventListener('click', deleteWork);
+        });
+
+    }
+
+    for (let i in categories) {
+        const selectItems = document.querySelector('.js-form-select');
+        const selectOption = document.createElement("option");
+        selectOption.value = categories[i].id;
+        selectOption.innerText = categories[i].name;
+        selectItems.appendChild(selectOption);
+    }
+
+    document.querySelectorAll('.js-input-form').forEach(input => {
+        input.value = "";
     });
-  });
-  
-  
-  document.querySelectorAll('.js-input-form').forEach(input => {
-    input.addEventListener('change', checkValue);
-  });
-  
 
-  // modal.addEventListener('click', closeModal);
-  // modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
-  // modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+    input.addEventListener('change', updateImageDisplay);
 
-}
-const checkValue = function (e) {
-  let thisInput = document.getElementById(e.target.id);
+    returnButton.addEventListener('click', returnModal);
 
-  if (thisInput && thisInput.value) {
-    if (e.target.id == 'title') {
-      objectProject.append('title', thisInput.value);
-    }
-    if (e.target.id == 'category') {
-      objectProject.append('category', thisInput.value);
-    }
-    if (objectProject.get("image") && objectProject.get("title") && objectProject.get("category")) {
-      insertButton.style.background = '#1D6154';
-      insertButton.style.cursor = 'pointer';
-    }
+    insertButton.addEventListener("click", sendProject);
 
-  }
-}
+    document.querySelectorAll('.js-input-form').forEach(input => {
+        input.addEventListener('change', checkValue);
+    });
 
-function updateImageDisplay() {
-  let currentFile = input.files[0];
 
-  if (currentFile && validFileType(currentFile)) {
-    insertImage.innerHTML = ""
-    let image = document.createElement('img');
-    image.src = window.URL.createObjectURL(currentFile);
-    objectProject.append('image', currentFile);
-    insertImage.appendChild(image);
-  } else {
-    let paragraph = document.createElement('p');
-    paragraph.textContent = 'Veuillez sélectionner un fichier image valide.';
-    insertImage.appendChild(paragraph);
-  }
-  if (objectProject.get("image") && objectProject.get("title") && objectProject.get("category")) {
-    insertButton.style.background = '#1D6154';
-    insertButton.style.cursor = 'pointer';
-  }
-}
 
-let fileTypes = [
-  'image/jpeg',
-  'image/pjpeg',
-  'image/png'
-]
-
-function validFileType(file) {
-  for (let i = 0; i < fileTypes.length; i++) {
-    if (file.type === fileTypes[i]) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-if (window.localStorage.getItem("target")) {
-openModal();
 }
 
 

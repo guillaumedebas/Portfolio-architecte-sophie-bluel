@@ -19,14 +19,17 @@
 
 <body>
 	<aside id="modal3" class="modal">
-		<div class="modal-wrapper-photo js-modal-stop">
+		<div class="modal-wrapper-photo js-modal-stop" id="wrapper-add-photo">
 			<div class="direction">
-			<i class="fa-regular fa-arrow-left-long js-modal-return"></i>
+			<a href="modal.html#modal-wrapper-gallery" class="js-modal-return">
+				<i class="fa-regular fa-arrow-left-long"></i>
+			</a>
 			<i class="fa-solid fa-xmark js-modal-close"></i>
+		
 			</div>
 			<h1>Ajout photo</h1>
 			<div class="modal-photo" id="add-photo" >
-				<form method="post" enctype="multipart/form-data">
+				<form method="post" enctype="multipart/form-data" id="add-photo-form">
 					<fieldset class="insert-image">
 						<i class="fa-sharp fa-regular fa-image"></i>							
 						<label for="image_uploads" class="insert-button">

@@ -23,13 +23,15 @@
 		<p>Mode édition</p>
 		<button class="publish">publier les changements</button>
 	</section>
+	<div class="main-wrapper">
+	
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 		<nav>
 			<ul>
-				<li>projets</li>
-				<li>contact</li>
-				<li class="logLink">login</li>
+				<li><a href="#portfolio">projets</a></li>
+				<li><a href="#contact">contact</a></li>
+				<li><a href="login.html" class="logLink">Login</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -49,7 +51,7 @@
 				<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG,
 					décorateur(trice)</p>
 			</article>
-			<a href='modal.html#modal2' class="modify js-modal">
+			<a href='#' class="modify">
 				<i class="fa-light fa-pen-to-square"></i>
 				<p>modifier</p>
 			</a>
@@ -59,8 +61,8 @@
 		<section id="portfolio">
 			<div class="center">
 				<h2>Mes Projets</h2>
-				<div class="title">
-				<a href="#modal" class="modifyProjet js-delete">
+				<div class="title" >
+					<a href='modal.html#modal' class="modifyProject js-modal">
 					<i class="fa-light fa-pen-to-square"></i>
 					<p>modifier</p>
 				</a>
@@ -98,6 +100,8 @@
 			</ul>
 		</nav>
 	</footer>
+</div>
+
 </body>
 
 </html>

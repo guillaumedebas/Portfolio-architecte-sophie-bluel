@@ -1,4 +1,9 @@
 const form = document.querySelector(".form");
+const errorElement = document.createElement("p");
+const errorPlace = document.querySelector(".error");
+if (window.localStorage.getItem("erreurTokken")) {
+    errorElement.innerText = window.localStorage.getItem("erreurTokken");
+}
     form.addEventListener("submit", async function (e) {
     e.preventDefault();
     const email = document.getElementById("email").value;
@@ -15,20 +20,18 @@ const form = document.querySelector(".form");
     const validation = await response.json();
 
 
-    if (validation.userId && validation.token) {
-        window.localStorage.setItem("userId", validation.userId);
+    if (validation.token) {
         window.localStorage.setItem("token", validation.token);
-        console.log("Accès ok");
         location.href = "index.html";
+        window.localStorage.removeItem("erreurTokken");
     } else {
-        console.log("erreur !");
-        const errorPlace = document.querySelector(".error");
-        const errorElement = document.createElement("p");
+        
         errorElement.innerText = "Erreur dans l’identifiant ou le mot de passe";
 
-        errorPlace.appendChild(errorElement);
+       
 
 
     }
 
     });
+    errorPlace.appendChild(errorElement);

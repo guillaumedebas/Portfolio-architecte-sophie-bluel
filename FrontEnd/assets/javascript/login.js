@@ -27,10 +27,6 @@ if (window.localStorage.getItem("erreurTokken")) {
     } else {
         
         errorElement.innerText = "Erreur dans l’identifiant ou le mot de passe";
-
-       
-
-
     }
 
     });

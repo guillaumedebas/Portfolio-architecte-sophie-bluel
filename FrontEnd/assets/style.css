@@ -111,7 +111,12 @@ body {
 }
 
 
-.fa-classic, .fa-regular, .fa-solid, .far, .fas, .fa-pen-to-square {
+.fa-classic,
+.fa-regular,
+.fa-solid,
+.far,
+.fas,
+.fa-pen-to-square {
 	font-family: 'FontAwesome';
 }
 
@@ -144,9 +149,8 @@ table {
 	box-sizing: border-box;
 }
 
-
 body {
-	
+
 	font-family: 'Work Sans';
 	font-size: 14px;
 }
@@ -156,7 +160,7 @@ body {
 	max-width: 1140px;
 }
 
-#creation {
+.creation {
 	display: none;
 	justify-content: center;
 	align-items: center;
@@ -219,7 +223,8 @@ nav li a {
 	color: black;
 }
 
-li:hover, li:hover a {
+li:hover,
+li:hover a {
 	color: #B1663C;
 	cursor: pointer;
 	text-decoration: none;
@@ -310,13 +315,12 @@ h2 {
 	text-decoration: none;
 }
 
-
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
 
-.gallery {
+.main-gallery {
 	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -324,7 +328,7 @@ h2 {
 	grid-row-gap: 20px;
 }
 
-.gallery img {
+.main-gallery img {
 	width: 100%;
 	aspect-ratio: 100/133;
 	object-fit: cover;
@@ -341,7 +345,6 @@ h2 {
 	margin-top: 0;
 }
 
-
 .modal-main,
 .modal-photo {
 	width: 50%;
@@ -353,7 +356,6 @@ h2 {
 #add-photo {
 	text-align: center;
 }
-
 
 #contact h2,
 #log h2 {
@@ -370,8 +372,6 @@ h2 {
 	flex-direction: column;
 }
 
-
-
 #contact input,
 #log input,
 .modal-photo input,
@@ -386,7 +386,6 @@ h2 {
 .modal-photo select {
 	background: white;
 }
-
 
 #contact label,
 #log label,
@@ -412,8 +411,9 @@ input[type="submit"] {
 
 }
 
-input[type="file"] {
-		position: absolute;
+.js-input-image {
+	position: absolute;
+	opacity: 0;
 }
 
 footer nav ul {
@@ -435,9 +435,9 @@ footer nav ul {
 
 .filters li,
 .publish,
-.submit,
+.to-add-project,
 .insert-button,
-#add-photo .submit-image {
+#add-photo .submit-project {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -451,14 +451,20 @@ footer nav ul {
 	padding: 0.563rem 1.875rem 0.563rem 1.875rem;
 }
 
+.filters .selectFilter {
+	color: white;
+	background-color: #1D6154;
+}
+
 .publish {
 	margin: 10px;
 	font-family: 'Work Sans';
 	border: 2px black solid;
 	color: black;
+	cursor: pointer;
 }
 
-.modal-option .submit {
+.modal-option .to-add-project {
 	color: white;
 	background-color: #1D6154;
 	margin-bottom: 23px;
@@ -468,7 +474,6 @@ footer nav ul {
 .direction .js-modal-return {
 	color: black;
 }
-
 
 .insert-button {
 	background: #CBD6DC;
@@ -484,9 +489,16 @@ a {
 	text-align: center;
 }
 
-#add-photo .submit-image {
+#add-photo .submit-project:disabled {
 	background: #A7A7A7;
 	color: white;
+
+}
+
+#add-photo .submit-project {
+	background: #1D6154;
+	color: white;
+	cursor: pointer;
 	border: 0px;
 	padding: 0.625rem 5rem 0.625rem 5rem;
 	text-align: center;
@@ -591,7 +603,6 @@ a {
 	border-bottom: 1px solid #B3B3B3;
 }
 
-
 .modal-wrapper a,
 .modal-wrapper-photo a {
 	color: #D65353;
@@ -650,17 +661,12 @@ a {
 	cursor: pointer;
 }
 
-
-
-
 .preview {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
 }
-
-
 
 .insert-image img {
 	width: 50%;
@@ -672,6 +678,14 @@ a {
 	display: flex;
 	width: 100%;
 	justify-content: space-between;
+}
+
+.visible {
+	display: flex;
+}
+
+.invisible {
+	display: none;
 }
 
 @keyframes fadeIn {

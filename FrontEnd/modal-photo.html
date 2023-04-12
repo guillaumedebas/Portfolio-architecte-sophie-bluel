@@ -31,22 +31,22 @@
 			<div class="modal-photo" id="add-photo" >
 				<form method="post" enctype="multipart/form-data" id="add-photo-form">
 					<fieldset class="insert-image">
-						<i class="fa-sharp fa-regular fa-image"></i>							
-						<label for="image_uploads" class="insert-button">
+						<i class="fa-sharp fa-regular fa-image hideable-field"></i>							
+						<label for="image_uploads" class="insert-button hideable-field">
 							+ Ajouter photo
 						</label>
-						<input id="image_uploads" type="file" class="js-insert-image js-input-form" name="image_uploads" accept=".jpg, .jpeg, .png" multiple = false>
-						<p class="error-paragraph">jpg, png : 4mo max</p>
+						<input id="image_uploads" type="file" class="js-input-image js-input-form hideable-field" name="image_uploads" accept=".jpg, .jpeg, .png" multiple = false>
+						<p class="warning-paragraph hideable-field">jpg, png : 4mo max</p>
 					</fieldset>
 					<fieldset class="modal-photo-description">
 					<label for="title">Titre</label>
-					<input type="text" name="title" id="title" class="js-input-form">
+					<input type="text" name="title" id="title" class="js-input-form js-input-title">
 					<label for="category">Catégorie</label>
 					<select name="category" id="category" class="js-form-select js-input-form">
 						<option value=""></option>
 					</select>
 				</fieldset>
-				<input type="submit" value="Valider" class="submit-image">
+				<input type="submit" value="Valider" class="submit-project" disabled>
 				</form>
 			</div>
 			<div class="modal-option">

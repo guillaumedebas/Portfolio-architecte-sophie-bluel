@@ -1,10 +1,11 @@
+//To manage the activation in login mode
 export const loginActivate = function (validationToken) {
     window.localStorage.setItem("token", validationToken);
     location.href = "index.html";
     window.localStorage.removeItem("tokkenError");
 };
 
-//To manage the administrator mode on the main page
+//To manage the login mode on the main page
 export const loginVerify = function () {
     const logLink = document.querySelector(".logLink");
     const filtersProject = document.querySelector(".filters");
